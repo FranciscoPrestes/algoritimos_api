@@ -1,0 +1,69 @@
+{
+  "info": {
+    "name": "Algoritimos API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_postman_id": "algoritimos-api-collection"
+  },
+  "item": [
+    {
+      "name": "Get Computed Property",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://127.0.0.1:8000/computed/example/10",
+          "protocol": "http",
+          "host": ["127.0.0.1"],
+          "port": "8000",
+          "path": ["computed", "example", "10"]
+        }
+      }
+    },
+    {
+      "name": "Post Last Lines",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"content\": \"linha1\\nlinha2\\nlinha3\\nlinha4\\nlinha5\",\n  \"num_lines\": 3\n}"
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/last-lines/",
+          "protocol": "http",
+          "host": ["127.0.0.1"],
+          "port": "8000",
+          "path": ["last-lines", ""]
+        }
+      }
+    },
+    {
+      "name": "Post Reconcile",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"transactions_1\": [[\"2024-05-01\", \"desc1\", \"100\", \"BRL\"]],\n  \"transactions_2\": [[\"2024-05-02\", \"desc1\", \"100\", \"BRL\"]]\n}"
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/reconcile/",
+          "protocol": "http",
+          "host": ["127.0.0.1"],
+          "port": "8000",
+          "path": ["reconcile", ""]
+        }
+      }
+    }
+  ]
+}

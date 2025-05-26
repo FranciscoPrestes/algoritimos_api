@@ -1,0 +1,52 @@
+flowchart TD
+    Start["Início: Instancia ReconcileAccountsService"]
+    ValidateInput["Valida se transactions_1 e transactions_2 são listas de listas"]
+    DeepCopy["Copia profunda das listas de transações"]
+    Reconcile["Chamada ao método reconcile"]
+
+    LoopTrans1["Para cada transação em transactions_1"]
+    ValidateTrans1["Valida transação com _validate_transaction"]
+    FindMatch["Busca correspondência com _find_match"]
+    AppendFound1["Anota 'FOUND'"]
+    AppendMissing1["Anota 'MISSING'"]
+    AppendInvalid1["Anota 'INVALID'"]
+
+    LoopTrans2["Para cada transação em transactions_2"]
+    ValidateTrans2["Valida transação com _validate_transaction"]
+    CheckMatched["Verifica se índice foi conciliado"]
+    AppendFound2["Anota 'FOUND'"]
+    AppendMissing2["Anota 'MISSING'"]
+    AppendInvalid2["Anota 'INVALID'"]
+
+    ReturnResult["Retorna transactions_1 e transactions_2"]
+
+    FindMatch --> ParseDate1["_parse_date de row1"]
+    ParseDate1 --> LoopTrans2Inner["Para cada transação em transactions_2"]
+    LoopTrans2Inner --> SkipMatched["Se já conciliado: pula"]
+    SkipMatched --> ParseDate2["_parse_date de row2"]
+    ParseDate2 --> IsMatch["_is_match verifica correspondência"]
+    IsMatch -->|Correspondem| AddMatched["Adiciona índice conciliado"]
+    IsMatch -->|Não correspondem| NextTrans2["Verifica próxima transação"]
+
+    IsMatch --> ToleranciaData["Critério: diferença <= 1 dia"]
+    IsMatch --> IgualdadeCampos["Critério: campos iguais"]
+
+    Start --> ValidateInput
+    ValidateInput --> DeepCopy
+    DeepCopy --> Reconcile
+
+    Reconcile --> LoopTrans1
+    LoopTrans1 --> ValidateTrans1
+    ValidateTrans1 -->|Válida| FindMatch
+    ValidateTrans1 -->|Inválida| AppendInvalid1
+    FindMatch -->|Encontrou| AppendFound1
+    FindMatch -->|Não encontrou| AppendMissing1
+
+    Reconcile --> LoopTrans2
+    LoopTrans2 --> ValidateTrans2
+    ValidateTrans2 -->|Válida| CheckMatched
+    ValidateTrans2 -->|Inválida| AppendInvalid2
+    CheckMatched -->|Conciliado| AppendFound2
+    CheckMatched -->|Não conciliado| AppendMissing2
+
+    Reconcile --> ReturnResult

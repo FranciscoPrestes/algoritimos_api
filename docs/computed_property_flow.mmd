@@ -1,0 +1,21 @@
+flowchart TD
+    Start[Instância de UserClass]
+    Access[User acessa propriedade computada]
+    Wrapper[Wrapper verifica cache e dependências]
+    CheckDeps[As dependências mudaram?]
+    ReturnCache[Retorna valor cacheado]
+    CaptureDeps[Captura dependências atuais]
+    RunFunc[Executa função original]
+    UpdateCache[Atualiza cache com novas dependências e valor]
+    ReturnValue[Retorna novo valor computado]
+
+    Start --> Access
+    Access --> Wrapper
+    Wrapper --> CheckDeps
+
+    CheckDeps -->|Não| ReturnCache
+    CheckDeps -->|Sim| CaptureDeps
+    CaptureDeps --> RunFunc
+    RunFunc --> UpdateCache
+    UpdateCache --> ReturnValue
+    ReturnCache --> ReturnValue

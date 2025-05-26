@@ -1,0 +1,44 @@
+flowchart TD
+    InstanciaLastLinesReader["Instância da classe LastLinesReader"]
+    ValidarArgumentos["Valida se filepath é string e buffer_size inteiro positivo"]
+    MetodoRead["Executa método read"]
+    AbrirArquivo["Abre arquivo em modo binário"]
+    PosicionaFinal["Move cursor para o final do arquivo"]
+    EnquantoNaoInicio["Enquanto posição maior que zero"]
+    CalculaReadSize["Calcula quantidade de bytes a ler"]
+    MoveCursor["Move cursor para posição calculada"]
+    LeBuffer["Lê bytes e concatena ao buffer"]
+    EnquantoTemQuebraLinha["Enquanto buffer contém \\n"]
+    DivideBuffer["Divide buffer e obtém linha"]
+    VerificaLinhaVazia["Verifica se a linha não está vazia"]
+    RetornaLinha["Retorna linha decodificada"]
+
+    BufferRestante["Verifica se restou conteúdo no buffer"]
+    RetornaBufferFinal["Retorna linha restante decodificada"]
+
+    ErroArquivoNaoEncontrado["Erro FileNotFoundError"]
+    ErroLeituraArquivo["Erro IOError"]
+
+    InstanciaLastLinesReader --> ValidarArgumentos
+    ValidarArgumentos --> MetodoRead
+    MetodoRead --> AbrirArquivo
+    AbrirArquivo --> PosicionaFinal
+    PosicionaFinal --> EnquantoNaoInicio
+
+    EnquantoNaoInicio -->|Sim| CalculaReadSize
+    CalculaReadSize --> MoveCursor
+    MoveCursor --> LeBuffer
+    LeBuffer --> EnquantoTemQuebraLinha
+
+    EnquantoTemQuebraLinha -->|Sim| DivideBuffer
+    DivideBuffer --> VerificaLinhaVazia
+    VerificaLinhaVazia -->|Sim| RetornaLinha
+    VerificaLinhaVazia -->|Não| EnquantoTemQuebraLinha
+
+    EnquantoTemQuebraLinha -->|Não| EnquantoNaoInicio
+
+    EnquantoNaoInicio -->|Não| BufferRestante
+    BufferRestante -->|Sim| RetornaBufferFinal
+
+    AbrirArquivo -->|Erro| ErroArquivoNaoEncontrado
+    AbrirArquivo -->|Erro| ErroLeituraArquivo
