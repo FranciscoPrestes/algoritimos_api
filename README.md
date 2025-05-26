@@ -20,7 +20,7 @@ Este projeto contém:
 * **Algoritmos implementados** na pasta `models`:
   * `computed_property.py`: Decorator para propriedade computada com cache automático.
   * `last_lines_reader.py`: Leitor reverso das últimas linhas de arquivos.
-  * `reconcile_accounts_service.py`: Conciliação de transações com tolerância de até ±1 dia.
+  * `reconcile_accounts_service.py`: Conciliação de transações.
 * **Scripts de execução** na pasta `scripts`:
   * `run_computed_property.py`
   * `run_last_lines_reader.py`
@@ -54,6 +54,12 @@ conda env create -f environment.yml
 
 ```bash
 conda activate algoritimos_api_env
+```
+
+3. **Atualizar o ambiente (quando o `environment.yml` for alterado):**
+
+```bash
+conda env update --file environment.yml --prune
 ```
 
 ---
